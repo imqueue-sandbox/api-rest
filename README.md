@@ -8,6 +8,22 @@ REST API with an OpenAPI 3 contract and interactive Swagger UI, instead of Graph
 It demonstrates that the imqueue service fleet is transport-agnostic: the API style in front of
 it is a free choice.
 
+## About the tutorial
+
+This repo is one piece of the **imqueue-sandbox** tutorial — a complete car-wash booking app
+built from independent RPC microservices that communicate over a Redis-backed message queue.
+
+| Repo | Role | Store |
+|------|------|-------|
+| [user](https://github.com/imqueue-sandbox/user) | Customer accounts & their garage | MongoDB |
+| [auth](https://github.com/imqueue-sandbox/auth) | Login, JWT issuing & revocation | Redis |
+| [car](https://github.com/imqueue-sandbox/car) | Car catalog (makes / models / types) | in-memory |
+| [time-table](https://github.com/imqueue-sandbox/time-table) | Washing reservations & schedule | PostgreSQL |
+| [api](https://github.com/imqueue-sandbox/api) | GraphQL gateway orchestrating the fleet | — |
+| **[api-rest](https://github.com/imqueue-sandbox/api-rest)** | REST/OpenAPI gateway over the same fleet | — |
+| [web-app](https://github.com/imqueue-sandbox/web-app) | React front-end on `api` (GraphQL/Relay) | — |
+| [web-app-rest](https://github.com/imqueue-sandbox/web-app-rest) | React front-end on `api-rest` (REST) | — |
+
 ## Usage
 
 Development mode (rebuilds and restarts on change):
