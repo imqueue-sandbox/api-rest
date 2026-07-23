@@ -1,0 +1,77 @@
+{
+  "name": "api-rest",
+  "version": "1.0.0-0",
+  "description": "api-rest - @imqueue based REST/OpenAPI gateway",
+  "keywords": [],
+  "type": "module",
+  "main": "index.js",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "build": "npm run clean:compiled && tsc",
+    "test": "npm run build && node --test --test-timeout=15000 $(find test -name '*.spec.js')",
+    "test:coverage": "npm run build && node --enable-source-maps --test --experimental-test-coverage --test-timeout=15000 $(find test -name '*.spec.js')",
+    "clean:dts": "find . -name '*.d.ts' -not -wholename '*node_modules*' -type f -delete",
+    "clean:map": "find . -name '*.js.map' -not -wholename '*node_modules*' -type f -delete",
+    "clean:js": "find . -name '*.js' -not -wholename '*node_modules*' -type f -delete",
+    "clean:compiled": "npm run clean:js && npm run clean:dts && npm run clean:map",
+    "clean:build": "rm -rf ./node_modules/@types ; find . -name '*.js.map' -type f -delete ; find . -name '*.ts' -type f -delete",
+    "clean:test": "rm -rf coverage",
+    "clean": "npm run clean:test && npm run clean:compiled",
+    "start": "NODE_ENV=production /usr/bin/env node ./index.js LABEL=api-rest",
+    "stop": "kill -s TERM $(ps aux | grep 'LABEL=api-rest' | awk '{print $2}')",
+    "dev:run": "npm run build && LABEL=api-rest /usr/bin/env node ./index.js",
+    "dev": "./node_modules/nodemon/bin/nodemon.js",
+    "rebuild-clients": "imq client generate User ./src/clients -o && imq client generate Auth ./src/clients -o && imq client generate Car ./src/clients -o && imq client generate TimeTable ./src/clients -o",
+    "docker:build": "tsc && docker build -f Dockerfile -t api-rest .",
+    "docker:run": "docker run --rm -it --name api-rest api-rest",
+    "docker:stop": "docker stop api-rest",
+    "docker:ssh": "docker exec -it api-rest sh",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format:check": "oxfmt --check",
+    "format": "oxfmt --no-error-on-unmatched-pattern",
+    "prepare": "if [ \"$NODE_ENV\" != \"production\" ]; then husky; fi"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "oxlint --fix",
+      "oxfmt --no-error-on-unmatched-pattern"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:imqueue-sandbox/api-rest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/imqueue-sandbox/api-rest/issues"
+  },
+  "homepage": "https://github.com/imqueue-sandbox/api-rest",
+  "author": "Mykhailo Stadnyk <mikhus@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@imqueue/core": "*",
+    "@imqueue/rpc": "*",
+    "compression": "^1.8.1",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "helmet": "^8.3.0",
+    "reflect-metadata": "*",
+    "swagger-ui-express": "^5.0.1",
+    "typescript": "*"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.8.1",
+    "@types/cors": "^2.8.6",
+    "@types/express": "^5.0.6",
+    "@types/node": "*",
+    "@types/swagger-ui-express": "^4.1.6",
+    "husky": "*",
+    "lint-staged": "*",
+    "nodemon": "*",
+    "oxfmt": "*",
+    "oxlint": "*"
+  }
+}

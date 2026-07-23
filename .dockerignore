@@ -1,0 +1,12 @@
+.git
+.github
+node_modules
+coverage
+.nyc_output
+docs
+*.log
+*.pid
+.env
+debug*
+Dockerfile
+.dockerignore
